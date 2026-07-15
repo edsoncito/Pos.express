@@ -5,7 +5,7 @@ VisualStudioVersion = 17.14.37328.6 d17.14
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "POS.Presentation", "POS.Presentation\POS.Presentation.csproj", "{F6D1DC1D-D283-4FB5-A041-FA5BFCAABC6C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "POS.Entities", "POS.entities\POS.Entities.csproj", "{DD191AFF-AE28-4EF0-A9E5-389A7062E73C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "POS.Entities", "POS.Entities\POS.Entities.csproj", "{DD191AFF-AE28-4EF0-A9E5-389A7062E73C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "POS.Business", "POS.Business\POS.Business.csproj", "{6EAF1155-39A9-4B9F-9EBD-C948A18AA9ED}"
 EndProject

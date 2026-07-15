@@ -8,7 +8,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\POS.Data\POS.Data.csproj" />
-    <ProjectReference Include="..\POS.entities\POS.Entities.csproj" />
+    <ProjectReference Include="..\POS.Entities\POS.Entities.csproj" />
   </ItemGroup>
 
 </Project>
