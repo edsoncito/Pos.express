@@ -12,7 +12,7 @@ public interface IUnitOfWork : IDisposable
     IRepository<ProductCategory> ProductCategories { get; }
     IRepository<ErpProduct> ErpProducts { get; }
     IRepository<BarCode> BarCodes { get; }
-    IRepository<ExpressSale> Sales { get; }
+    ISaleRepository Sales { get; }
 
     Task<int> SaveChangesAsync();
     Task<IDbContextTransaction> BeginTransactionAsync();

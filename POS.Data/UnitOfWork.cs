@@ -18,7 +18,7 @@ public class UnitOfWork : IUnitOfWork
         ProductCategories = new Repository<ProductCategory>(context);
         ErpProducts = new Repository<ErpProduct>(context);
         BarCodes = new Repository<BarCode>(context);
-        Sales = new Repository<ExpressSale>(context);
+        Sales = new SaleRepository(context);
     }
 
     public IProductRepository Products { get; }
@@ -27,7 +27,7 @@ public class UnitOfWork : IUnitOfWork
     public IRepository<ProductCategory> ProductCategories { get; }
     public IRepository<ErpProduct> ErpProducts { get; }
     public IRepository<BarCode> BarCodes { get; }
-    public IRepository<ExpressSale> Sales { get; }
+    public ISaleRepository Sales { get; }
 
     public Task<int> SaveChangesAsync() => _context.SaveChangesAsync();
 
