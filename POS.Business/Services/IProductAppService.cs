@@ -4,5 +4,5 @@ namespace POS.Business.Services;
 
 public interface IProductAppService
 {
-    Task<ErpProduct> RegisterErpProductAsync(int productId, decimal cost);
+    Task<ErpProduct> RegisterErpProductAsync(string name, int productTypeId, decimal cost, int stock);
 }

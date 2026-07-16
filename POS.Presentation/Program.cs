@@ -16,15 +16,16 @@ static async Task RunMenuAsync(IServiceProvider services)
     {
         Console.WriteLine();
         Console.WriteLine("=== POS Express ===");
-        Console.WriteLine("1. Registrar producto ERP");
-        Console.WriteLine("2. Asignar código de barras");
-        Console.WriteLine("3. Asignar categoría a producto");
-        Console.WriteLine("4. Registrar venta");
-        Console.WriteLine("5. Salir");
+        Console.WriteLine("1. Registrar tipo de producto");
+        Console.WriteLine("2. Registrar nuevo producto ERP");
+        Console.WriteLine("3. Asignar código de barras");
+        Console.WriteLine("4. Asignar categoría a producto");
+        Console.WriteLine("5. Registrar venta");
+        Console.WriteLine("6. Salir");
         Console.Write("Opción: ");
 
         var option = Console.ReadLine();
-        if (option == "5")
+        if (option == "6")
             return;
 
         using var scope = services.CreateScope();
@@ -33,15 +34,18 @@ static async Task RunMenuAsync(IServiceProvider services)
             switch (option)
             {
                 case "1":
-                    await RegisterErpProductAsync(scope.ServiceProvider);
+                    await RegisterProductTypeAsync(scope.ServiceProvider);
                     break;
                 case "2":
-                    await AssignBarCodeAsync(scope.ServiceProvider);
+                    await RegisterErpProductAsync(scope.ServiceProvider);
                     break;
                 case "3":
-                    await AssignCategoryAsync(scope.ServiceProvider);
+                    await AssignBarCodeAsync(scope.ServiceProvider);
                     break;
                 case "4":
+                    await AssignCategoryAsync(scope.ServiceProvider);
+                    break;
+                case "5":
                     await RegisterSaleAsync(scope.ServiceProvider);
                     break;
                 default:
@@ -56,15 +60,30 @@ static async Task RunMenuAsync(IServiceProvider services)
     }
 }
 
+static async Task RegisterProductTypeAsync(IServiceProvider services)
+{
+    Console.Write("Descripción del tipo de producto: ");
+    var description = Console.ReadLine() ?? string.Empty;
+
+    var service = services.GetRequiredService<IProductTypeAppService>();
+    var productType = await service.RegisterProductTypeAsync(description);
+
+    Console.WriteLine($"Tipo de producto registrado. Id: {productType.Id}, Descripción: {productType.Description}");
+}
+
 static async Task RegisterErpProductAsync(IServiceProvider services)
 {
-    var productId = ReadInt("ID del producto: ");
+    Console.Write("Nombre del producto: ");
+    var name = Console.ReadLine() ?? string.Empty;
+    var productTypeId = ReadInt("ID del tipo de producto: ");
     var cost = ReadDecimal("Costo: ");
+    var stock = ReadInt("Stock inicial: ");
 
     var service = services.GetRequiredService<IProductAppService>();
-    var erpProduct = await service.RegisterErpProductAsync(productId, cost);
+    var erpProduct = await service.RegisterErpProductAsync(name, productTypeId, cost, stock);
 
-    Console.WriteLine($"Producto registrado en ERP. UniqueCode: {erpProduct.UniqueCode}, Costo: {erpProduct.Cost}");
+    Console.WriteLine($"Producto registrado en ERP. ProductId: {erpProduct.ProductId}, UniqueCode: {erpProduct.UniqueCode}, " +
+        $"Costo: {erpProduct.Cost}, Stock: {erpProduct.Stock}");
 }
 
 static async Task AssignBarCodeAsync(IServiceProvider services)

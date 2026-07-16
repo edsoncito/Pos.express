@@ -21,6 +21,7 @@ public static class ServiceCollectionExtensions
         services.AddScoped<IUnitOfWork, UnitOfWork>();
         services.AddScoped<IUniqueCodeGenerator, UniqueCodeGenerator>();
 
+        services.AddScoped<IProductTypeAppService, ProductTypeAppService>();
         services.AddScoped<IProductAppService, ProductAppService>();
         services.AddScoped<IBarCodeAppService, BarCodeAppService>();
         services.AddScoped<ICategoryAppService, CategoryAppService>();

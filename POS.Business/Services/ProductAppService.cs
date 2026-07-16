@@ -18,11 +18,11 @@ public class ProductAppService : IProductAppService
         _priceRule = priceRule;
     }
 
-    public async Task<ErpProduct> RegisterErpProductAsync(int productId, decimal cost)
+    public async Task<ErpProduct> RegisterErpProductAsync(string name, int productTypeId, decimal cost, int stock)
     {
-        var product = await _unitOfWork.Products.GetByIdAsync(productId);
-        if (product == null)
-            throw new InvalidOperationException($"Product with ID {productId} not found.");
+        var productType = await _unitOfWork.ProductTypes.GetByIdAsync(productTypeId);
+        if (productType == null)
+            throw new InvalidOperationException($"ProductType with ID {productTypeId} not found.");
 
         var uniqueCode = _codeGenerator.Generate();
 
@@ -31,20 +31,24 @@ public class ProductAppService : IProductAppService
             uniqueCode = _codeGenerator.Generate();
         }
 
-        var calculatedPrice = _priceRule.CalculatePrice(cost);
-
-        product.Price = calculatedPrice;
-        _unitOfWork.Products.Update(product);
+        var product = new Product
+        {
+            Name = name,
+            ProductTypeId = productTypeId,
+            Price = _priceRule.CalculatePrice(cost),
+            IsActive = true
+        };
 
         var erpProduct = new ErpProduct
         {
-            ProductId = productId,
+            Product = product,
             UniqueCode = uniqueCode,
             Cost = cost,
-            Stock = 0,
+            Stock = stock,
             RegisteredAt = DateTime.UtcNow
         };
 
+        await _unitOfWork.Products.AddAsync(product);
         await _unitOfWork.ErpProducts.AddAsync(erpProduct);
         await _unitOfWork.SaveChangesAsync();
 
